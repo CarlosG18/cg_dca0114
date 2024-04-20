@@ -1,2 +1,23 @@
 # cg_dca0114
-Repositório dedicado a implementações e anotações sobre a disciplina de Computação Gráfica - DCA0114 - UFRN - DCA (Departamento de Computação e Automação)
+
+> Repositório dedicado a implementações e anotações sobre a disciplina de Computação Gráfica - DCA0114 - UFRN - DCA (Departamento de Computação e Automação)
+
+![departamento-disciplina](https://img.shields.io/badge/dca-computação_gráfica-blue?style=for-the-badge)
+![linguagem-c](https://img.shields.io/badge/c_c++-black?style=for-the-badge&logo=cpp&logoColor=white)
+![opengl](https://img.shields.io/badge/open_gl-purple?style=for-the-badge&logo=opengl&logoColor=white)
+
+## 🚀 Unidade I
+
+Na primeira unidade do curso de Computação Gráfica, exploramos diversos exemplos de códigos em OpenGL para aplicar conceitos teóricos, como transformação de matrizes (coordenadas de mundo, de câmera, do objeto), iluminação e filtragem (blur, morphing, etc). Essa prática proporcionou uma compreensão mais profunda e prática dos princípios fundamentais dessa área, permitindo visualizar como esses conceitos são implementados em aplicações gráficas reais.
+
+### 🎯 Atividades/projetos
+
+- [📌 ]()
+
+## 🚀 Unidade II
+
+### 🎯 Atividades/projetos
+
+## 🚀 Unidade III
+
+### 🎯 Atividades/projetos
