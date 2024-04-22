@@ -139,3 +139,9 @@ para a compilação e execução do arquivo `cube.c` use os seguintes comandos:
 $ gcc -o cube cube.c -lm -lGL -lGLU -lglut
 $ ./cube
 ```
+
+se você executar esse comando acima deverá obter uma janela com a seguinte imagem do cubo:
+
+<p align="center">
+    <img width=400 src="../visualizacao3d/cube.png"/>
+</p>
