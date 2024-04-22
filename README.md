@@ -12,7 +12,7 @@ Na primeira unidade do curso de Computação Gráfica, exploramos diversos exemp
 
 ### 🎯 Atividades/projetos
 
-- [📌 ]()
+- [📌 Visualização 3D - exemplo](https://github.com/CarlosG18/cg_dca0114/blob/main/uni1/visualizacao3d/visualizacao3d.md)
 
 ## 🚀 Unidade II
 
