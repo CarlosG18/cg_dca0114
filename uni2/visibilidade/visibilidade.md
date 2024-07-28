@@ -59,13 +59,45 @@ Fim Para
 
 ### [2/4] 📌 Pintor
 
+O algoritmo de visibilidade do pintor como o nome já sugere, se baseia em como um pintor real faz suas pinturas. Primeiramente é feito a pintura do fundo e depois sobreescrevendo esse fundo com os objetos que vem logo em seguida.
+
 #### 🔍 Como Funciona?
+
+Para o funcionamento do algoritmo precisamos obter todos os poligonos da cena e ordenalos em função da distância que esse poligono está na cena, essa ordenação será feita de maneira a deixar os poligonos mais distantes da cena nas primeiras posições para serem pintados primeiro. a medida em que esses poligonos vão sendo pintados, os elementos que estão mais proximos da camera serão representados a frente dos elementos que estão mais distantes.
 
 #### ✅ Vantagens
 
+- **Simplicidade**: O algoritmo é relativamente fácil de entender e implementar.
+
+- **Flexibilidade**: Pode ser usado com qualquer tipo de primitiva gráfica.
+
 #### ❌ Desvantagens
 
+- **Eneficiência com Polígonos Intersectados**: A necessidade de dividir polígonos intersectados pode ser complexa e custosa.
+
+- **Ordenação Dinâmica**: Em cenas complexas, a reordenação dinâmica dos polígonos pode ser computacionalmente intensiva.
+
+- **Performance**: Não é o método mais eficiente para cenas complexas ou com muitos polígonos, onde algoritmos como o Z-buffer são preferíveis.
+
+#### 📝 Pseudo código
+
+```
+    dados:
+        vetor_de_poligonos;
+        poligonos;
+
+    para poligono no poligonos:
+        calcule sua profundidade na cena
+        adicione em ordem no vetor_de_poligonos em relação a profundidade
+
+    para poligono no vetor_de_poligonos:
+        desenhe o poligono
+```
+
 ### [3/4] 📌 Ray Casting
+
+
+
 #### 🔍 Como Funciona?
 
 #### ✅ Vantagens
