@@ -96,18 +96,43 @@ Para o funcionamento do algoritmo precisamos obter todos os poligonos da cena e 
 
 ### [3/4] 📌 Ray Casting
 
-
-
-#### 🔍 Como Funciona?
-
-#### ✅ Vantagens
-
-#### ❌ Desvantagens
-
-### [4/4] 📌 Ray Tracing
+O Ray casting é um algoritimo de visibilidade que usa raios para calcular os parâmetros dos pixels na cena.
 
 #### 🔍 Como Funciona?
 
+Basicamente o Ray Casting funciona da seguinte maneira: são projetados "raios" que partem geralmente da câmera ou de um ponto de vista, em direção a cena. Após isso será verificado onde o raio foi intersectado na cena, caso o objeto seja intersectado, será calculado o ponto onde foi intersectado e o vetor normal a superficie. com essas informações básicas será possivel calcular todos os parâmetros do pixel, como iluminação, cor entre outros.
+
 #### ✅ Vantagens
 
+- **Simplicidade**: Fácil de implementar e entender.
+
+- **Qualidade visual**: Gera imagens realistas com sombras e reflexos precisos.
+
+- **Versatilidade**: Pode ser usado em diferentes tipos de cenas e iluminações.
+
 #### ❌ Desvantagens
+
+- **Desempenho**: Pode ser lento, pois verifica a interseção de raios com todos os objetos da cena.
+
+- **Requer muito poder computacional**: Processamento intensivo, especialmente em cenas complexas.
+
+- **Limitado para cenas dinâmicas**: Não é ideal para cenas em tempo real, como jogos, devido à sua lentidão.
+
+#### 📝 Pseudo código
+
+```
+    INICIALIZAR câmera e cena
+
+    PARA cada pixel (x, y) na tela:
+        raio = calcularRaio(camera, x, y)
+        cor_pixel = corFundo
+    
+    PARA cada objeto na cena:
+        se intersecionar(raio, objeto):
+            cor_pixel = calcularCor(raio, objeto, luzes)
+            interromper (se a cena não tiver transparência)
+
+    definirCorPixel(x, y, cor_pixel)
+
+renderizarImagem()
+```

@@ -33,9 +33,9 @@ void display(void)
 Em computação gráfica, a tranformação de visualização é aplicado na câmera. geralmente essas tranformações são aplicadas para levar a câmera para a posição de mundo (quando ela esta em uma posição diferente da de mundo) e também para definir a orientação dela. Em **OpenGL** usamos a função `glLookAt()`
 
 - **O que é glLookAt()?**: é a matriz que irá definir a posição e a orientação da câmera. Ela possui 9 parâmetros que se dividem em 3 vetores, sendo eles:
-    1. **vetor (x,y,z)** = posicao da camera 
-    2. **vetor (x,y,x)** = onde a camera esta apontando
-    3. **vetor (x,y,x)** = up da camera
+  1. **vetor (x,y,z)** = posicao da camera
+  2. **vetor (x,y,x)** = onde a camera esta apontando
+  3. **vetor (x,y,x)** = up da camera
 
 #### 🚩 Função drawCube()
 
@@ -133,7 +133,7 @@ No nosso exemplo temos: **glFrustum(-1.0, 1.0, -1.0, 1.0, 1.5, 20.0)**, que esta
 
 ## 🧪 Como Executar este código?
 
-para a compilação e execução do arquivo `cube.c` use os seguintes comandos: 
+para a compilação e execução do arquivo `cube.c` use os seguintes comandos:
 
 ```bash
 $ gcc -o cube cube.c -lm -lGL -lGLU -lglut

@@ -16,8 +16,18 @@ Na primeira unidade do curso de Computação Gráfica, exploramos diversos exemp
 
 ## 🚀 Unidade II
 
-### 🎯 Atividades/projetos
+Nesta unidade, exploramos conceitos fundamentais da computação gráfica que são essenciais para o desenvolvimento de cenas e modelos tridimensionais. Os principais tópicos abordados incluem:
+
+### 📚 Conteúdos
+
+- [📌 Visibilidade](./uni2/visibilidade.md)
+
+- [📌 Shading](./uni2/shading.md)
+
+- [📌 Estruturas de Dados Espaciais](./uni2/data_spaces.md)
 
 ## 🚀 Unidade III
 
 ### 🎯 Atividades/projetos
+
+- [📌 Desenvolvendo um Cubo Mágico]()
