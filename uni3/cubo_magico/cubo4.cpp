@@ -2,14 +2,18 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 // Ângulo de rotação para o cubo
 static float angleX = 0.0f;
 static float angleY = 0.0f;
 
-int Front = 0, Back, Left, Right, Up, Down, Central;
+int Front, Back, Left, Right, Central, Central1;
 int* g_value = nullptr;
+GLuint Textura;
 
+bool rot_right = false,  rot_left = false, rot_central1 = false;
 
 class cubo{
     public:
@@ -26,150 +30,149 @@ class cubo{
         void drawCube() {
             
             glLineWidth(5.0f); // Define a largura da linha
-            // Face Frente
+            
+            // Desenhando a face Frontal
             glBegin(GL_QUADS);
+
                 if(this->z == -2.0)
                 {
-                    glColor3f(0.0f, 0.0f, 1.0f); // Azul
+                    glColor4f(0.0f, 0.0f, 1.0f, 0.5f); // Azul
                 }
                 else
                 {
-                    glColor3f(0.0f, 0.0f, 0.0f); // preto
+                    glColor4f(0.0f, 0.0f, 0.0f, 0.5f); // preto
                 }
                 
-                glVertex3f(-1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
-                glVertex3f( 1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
-                glVertex3f( 1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
-                glVertex3f(-1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
+               glTexCoord2f(0.0, 0.0); glVertex3f(-1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
+               glTexCoord2f(1.0, 0.0); glVertex3f( 1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
+               glTexCoord2f(1.0, 1.0); glVertex3f( 1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
+               glTexCoord2f(0.0, 1.0); glVertex3f(-1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
+
             glEnd();
 
+            // Desenhando a borda
             glBegin(GL_LINE_LOOP);
-                glColor3f(0.0, 0.0, 0.0); // Preto para a borda
+                glColor4f(0.0, 0.0, 0.0, 0.5); // Preto para a borda
                 glVertex3f(-1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
                 glVertex3f( 1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
                 glVertex3f( 1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
                 glVertex3f(-1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
             glEnd();
 
-            // Face Traseira
+            // Desenhando a face Traseira
             glBegin(GL_QUADS);
                 if(this->z == 2.0)
                 {
-                    glColor3f(0.0, 1.0, 0.0); // Verde
+                    glColor4f(0.0, 1.0, 0.0, 0.5); // Verde
                 }
                 else
                 {
-                    glColor3f(0.0f, 0.0f, 0.0f); // preto
+                    glColor4f(0.0f, 0.0f, 0.0f, 0.5f); // preto
                 }
-                
-                glVertex3f(-1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
-                glVertex3f( 1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
-                glVertex3f( 1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
-                glVertex3f(-1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
+                glTexCoord2f(0.0, 0.0); glVertex3f(-1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
+                glTexCoord2f(1.0, 0.0); glVertex3f( 1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
+                glTexCoord2f(1.0, 1.0); glVertex3f( 1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
+                glTexCoord2f(0.0, 1.0); glVertex3f(-1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
             glEnd();
 
             glBegin(GL_LINE_LOOP);
-                glColor3f(0.0, 0.0, 0.0); // Preto para a borda
+                glColor4f(0.0, 0.0, 0.0, 0.5); // Preto para a borda
                 glVertex3f(-1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
                 glVertex3f( 1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
                 glVertex3f( 1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
                 glVertex3f(-1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
             glEnd();
 
-            // Face Esquerda
+            // Desenhando a face Esquerda
             glBegin(GL_QUADS);
                 if(this->x == 2.0)
                 {
-                    glColor3f(1.0, 0.5f, 0.0); // Laranja
+                    glColor4f(1.0f, 0.5f, 0.0f, 0.5f); // Laranja
                 }
                 else
                 {
-                    glColor3f(0.0f, 0.0f, 0.0f); // preto
+                    glColor4f(0.0f, 0.0f, 0.0f, 0.5f); // preto
                 }
-                
-                glVertex3f(-1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
-                glVertex3f(-1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
-                glVertex3f(-1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
-                glVertex3f(-1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
+                glTexCoord2f(0.0, 0.0); glVertex3f(-1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
+                glTexCoord2f(1.0, 0.0); glVertex3f(-1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
+                glTexCoord2f(1.0, 1.0); glVertex3f(-1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
+                glTexCoord2f(0.0, 1.0); glVertex3f(-1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
             glEnd();
 
             glBegin(GL_LINE_LOOP);
-                glColor3f(0.0, 0.0, 0.0); // Preto para a borda
+                glColor4f(0.0, 0.0, 0.0, 0.5); // Preto para a borda
                 glVertex3f(-1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
                 glVertex3f(-1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
                 glVertex3f(-1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
                 glVertex3f(-1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
             glEnd();
 
-            // Face Direita
+            // Desenhando a face Direita
             glBegin(GL_QUADS);
                 if(this->x == -2.0)
                 {
-                    glColor3f(1.0, 0.0, 0.0); // Vermelho
+                    glColor4f(1.0, 0.0, 0.0, 0.5); // Vermelho
                 }
                 else
                 {
-                    glColor3f(0.0f, 0.0f, 0.0f); // preto
+                    glColor4f(0.0f, 0.0f, 0.0f, 0.5f); // preto
                 }
-                
-                glVertex3f( 1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
-                glVertex3f( 1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
-                glVertex3f( 1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
-                glVertex3f( 1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
+                glTexCoord2f(0.0, 0.0); glVertex3f( 1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
+                glTexCoord2f(1.0, 0.0); glVertex3f( 1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
+                glTexCoord2f(1.0, 1.0); glVertex3f( 1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
+                glTexCoord2f(0.0, 1.0); glVertex3f( 1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
             glEnd();
 
             glBegin(GL_LINE_LOOP);
-                glColor3f(0.0, 0.0, 0.0); // Preto para a borda
+                glColor4f(0.0, 0.0, 0.0, 0.5); // Preto para a borda
                 glVertex3f( 1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
                 glVertex3f( 1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
                 glVertex3f( 1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
                 glVertex3f( 1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
             glEnd();
 
-            // Face Superior
+            // desenhando a Face Superior
             glBegin(GL_QUADS);
                 if(this->y == -2.0)
                 {
-                    glColor3f(1.0, 1.0, 0.0); // Amarelo
+                    glColor4f(1.0, 1.0, 0.0, 0.5); // Amarelo
                 }
                 else
                 {
-                    glColor3f(0.0f, 0.0f, 0.0f); // preto
+                    glColor4f(0.0f, 0.0f, 0.0f, 0.5f); // preto
                 }
-                
-                glVertex3f(-1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
-                glVertex3f( 1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
-                glVertex3f( 1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
-                glVertex3f(-1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
+                glTexCoord2f(0.0, 0.0); glVertex3f(-1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
+                glTexCoord2f(1.0, 0.0); glVertex3f( 1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
+                glTexCoord2f(1.0, 1.0); glVertex3f( 1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
+                glTexCoord2f(0.0, 1.0); glVertex3f(-1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
             glEnd();
 
             glBegin(GL_LINE_LOOP);
-                glColor3f(0.0, 0.0, 0.0); // Preto para a borda
+                glColor4f(0.0, 0.0, 0.0, 0.5); // Preto para a borda
                 glVertex3f(-1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
                 glVertex3f( 1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
                 glVertex3f( 1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
                 glVertex3f(-1.0-(GLfloat)this->x,  1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
             glEnd();
 
-            // Face Inferior
-            glBegin(GL_QUADS);
+            // Desenhando a Face Inferior
+                glBegin(GL_QUADS);
                 if(this->y == 2.0)
                 {
-                    glColor3f(1.0, 1.0, 1.0); // Branco
+                    glColor4f(1.0, 1.0, 1.0, 0.5); // Branco
                 }
                 else
                 {
-                    glColor3f(0.0f, 0.0f, 0.0f); // preto
+                    glColor4f(0.0f, 0.0f, 0.0f, 0.5f); // preto
                 }
-                
-                glVertex3f(-1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
-                glVertex3f( 1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
-                glVertex3f( 1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
-                glVertex3f(-1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
+                glTexCoord2f(0.0, 0.0); glVertex3f(-1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
+                glTexCoord2f(1.0, 0.0); glVertex3f( 1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
+                glTexCoord2f(1.0, 1.0); glVertex3f( 1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
+                glTexCoord2f(0.0, 1.0); glVertex3f(-1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
             glEnd();
 
             glBegin(GL_LINE_LOOP);
-                glColor3f(0.0, 0.0, 0.0); // Preto para a borda
+                glColor4f(0.0, 0.0, 0.0, 0.5); // Preto para a borda
                 glVertex3f(-1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
                 glVertex3f( 1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y, -1.0-(GLfloat)this->z);
                 glVertex3f( 1.0-(GLfloat)this->x, -1.0-(GLfloat)this->y,  1.0-(GLfloat)this->z);
@@ -184,7 +187,7 @@ class CuboMagico{
     public:
         cubo ***matriz;
         int nx, ny, nz;
-        cubo *front, *back, *left, *right, *up, *down, *central;
+        cubo *front, *back, *left, *right, *central1, *central;
 
         CuboMagico(int nx, int ny,int nz): nx(nx), ny(ny), nz(nz) {
             create_cube(nx,ny,nz);
@@ -202,28 +205,42 @@ class CuboMagico{
             delete[] matriz;
         }
 
-        void show(){
-            for (int i = 0; i < this->nx; i++) {
-                for (int j = 0; j < this->ny; j++) {
-                    for (int k = 0; k < this->nz; k++) {
-                        this->matriz[i][j][k].drawCube();
-                    }
-                }
-            }
-        }
-
         void face(char type){
             if(type=='l'){
-                for(int i=0; i < 9; i++){
-                    this->left[i].drawCube();
+                for(int i=0; i < 3; i++){
+                    for(int j=0; j <=2; j++){
+                        if(i == 0){
+                            this->front[j].drawCube();
+                        }else if(i == 1){
+                            this->central[j].drawCube();
+                        }else{
+                            this->back[j].drawCube();
+                        }
+                    }
                 }
-            }else if (type=='u'){
-                for(int i=0; i < 9; i++){
-                    this->up[i].drawCube();
+            }else if (type=='s'){
+                for(int i=0; i < 3; i++){
+                    for(int j=3; j <= 5 ; j++){
+                        if(i == 0){
+                            this->front[j].drawCube();
+                        }else if(i == 1){
+                            this->central[j].drawCube();
+                        }else{
+                            this->back[j].drawCube();
+                        }
+                    }
                 }
             }else if (type=='r'){
-                for(int i=0; i < 9; i++){
-                    this->right[i].drawCube();
+                for(int i=0; i < 3; i++){
+                    for(int j=6; j <= 8; j++){
+                        if(i == 0){
+                            this->front[j].drawCube();
+                        }else if(i == 1){
+                            this->central[j].drawCube();
+                        }else{
+                            this->back[j].drawCube();
+                        }
+                    }
                 }
             }else if (type=='b'){
                 for(int i=0; i < 9; i++){
@@ -233,15 +250,30 @@ class CuboMagico{
                 for(int i=0; i < 9; i++){
                     this->front[i].drawCube();
                 }
-            }else if (type=='d'){
-                for(int i=0; i < 9; i++){
-                    this->down[i].drawCube();
-                }
             }else if (type=='c'){
                 for(int i=0; i < 9; i++){
                     this->central[i].drawCube();
                 }
             }
+        }
+
+        void atualiza_face(){
+            cubo matriz_aux[3][3];
+            for(int i=0; i < 3; i++){
+                for(int j=0; j < 3; j++){
+                    matriz_aux[i][j] = this->matriz[i][j][0];
+                }
+            }
+
+            // atualizando a face front
+            for(int i=0; i < 3; i++){
+                for(int j=0; j < 3; j++){
+                    this->matriz[i][j][0] = matriz_aux[2-j][i];
+                }
+            }
+
+            //atualizando a face 
+            
         }
 
     private:
@@ -277,12 +309,8 @@ class CuboMagico{
         void create_faces(){
             this->front = new cubo[this->nx * this->ny];
             this->back = new cubo[this->nx * this->ny];
-            this->left = new cubo[this->nx * this->ny];
-            this->right = new cubo[this->nx * this->ny];
-            this->up = new cubo[this->nx * this->ny];
-            this->down = new cubo[this->nx * this->ny];
             this->central = new cubo[this->nx * this->ny];
-
+    
             //definindo a face front
             for(int i=0; i < this->nx; i++){
                 for(int j=0; j < this->ny; j++){
@@ -297,7 +325,7 @@ class CuboMagico{
                 }
             }
 
-            //definindo a face
+            //definindo a face back
             for(int i=0; i < this->nx; i++){
                 for(int j=0; j < this->ny; j++){
                     this->back[i*3+j] = this->matriz[i][j][2];
@@ -308,36 +336,18 @@ class CuboMagico{
 
 CuboMagico cubomag(3,3,3);
 
-/*
-void rotate(int value){
-    Front++;
-    if(Front < 90){
-        glutTimerFunc(10, rotate, 0);
-    }else{
-        //cubomag.atualiza_face();
-        Front = 0;
-    }
-    
-}*/
-
-
 void rotate_horario(int){
     (*g_value)++;
     if (((*g_value) % 90) == 1 && (*g_value) != 1){
         //cubomag.atualiza_face();
     }else {
+        glutPostRedisplay();
         glutTimerFunc(10, rotate_horario, 0);
     }
 }
 
 void rotate_anti_horario(int){
-    (*g_value)--;
-    if (((*g_value) % 90) == -1 && (*g_value) != -1) {
-        glutTimerFunc(10, rotate_anti_horario, 0);
-    } else {
-        
-        //cubomag.atualiza_face();
-    }
+    
 }
 
 
@@ -346,8 +356,9 @@ void rotate_anti_horario(int){
 void keyboard (unsigned char key, int x, int y)
 {
     switch (key) {
-        case 'f':   /*  s key rotates at shoulder  */
+        case 'f':
             g_value = &Front;
+            rot_right = false, rot_left = false, rot_central1 = false;
             glutTimerFunc(10, rotate_horario, 0);
             glutPostRedisplay();
             break;
@@ -358,6 +369,7 @@ void keyboard (unsigned char key, int x, int y)
             break;
         case 'b':  /*  e key rotates at elbow  */
             g_value = &Back;
+            rot_right = false, rot_left = false, rot_central1 = false;
             glutTimerFunc(10, rotate_horario, 0);
             glutPostRedisplay();
             break;
@@ -366,45 +378,48 @@ void keyboard (unsigned char key, int x, int y)
             glutTimerFunc(10, rotate_anti_horario, 0);
             glutPostRedisplay();
             break;
-        case 'u':
-            Up = (Up + 1) % 360;
-            glutPostRedisplay();
-            break;
-        case 'U':
-            Up = (Up - 1) % 360;
-            glutPostRedisplay();
-            break;
-        case 'd':
-            Down = (Down + 1) % 360;
-            glutPostRedisplay();
-            break;
-        case 'D':
-            Down = (Down - 1) % 360;
-            glutPostRedisplay();
-            break;
         case 'l':
-            Left = (Left + 1) % 360;
+            g_value = &Left;
+            rot_left = true;
+            glutTimerFunc(10, rotate_horario, 0);
             glutPostRedisplay();
             break;
         case 'L':
-            Left = (Left - 1) % 360;
+            g_value = &Left;
+            glutTimerFunc(10, rotate_anti_horario, 0);
             glutPostRedisplay();
             break;
         case 'r':
-            Right = (Right + 1) % 360;
+            g_value = &Right;
+            rot_right = true;
+            glutTimerFunc(10, rotate_horario, 0);
             glutPostRedisplay();
             break;
         case 'R':
-            Right = (Right - 1) % 360;
+            g_value = &Right;
+            cubomag.atualiza_face();
+            glutTimerFunc(10, rotate_anti_horario, 0);
             glutPostRedisplay();
             break;
         case 'c':
             g_value = &Central;
+            rot_right = false, rot_left = false, rot_central1 = false;
             glutTimerFunc(10, rotate_horario, 0);
             glutPostRedisplay();
             break;
         case 'C':
             g_value = &Central;
+            glutTimerFunc(10, rotate_anti_horario, 0);
+            glutPostRedisplay();
+            break;
+        case 's':
+            g_value = &Central1;
+            rot_central1 = true;
+            glutTimerFunc(10, rotate_horario, 0);
+            glutPostRedisplay();
+            break;
+        case 'S':
+            g_value = &Central1;
             glutTimerFunc(10, rotate_anti_horario, 0);
             glutPostRedisplay();
             break;
@@ -434,36 +449,47 @@ void display() {
     // Rotaciona o cubo
     glRotatef(angleX, 1.0, 0.0, 0.0);
     glRotatef(angleY, 0.0, 1.0, 0.0);
+
+    //habilitando textura
+    glEnable(GL_TEXTURE_2D);
     
-    //face central
+    if(rot_right || rot_left || rot_central1){
+        glPushMatrix(); // Salva a matriz de transformação atual
+        glRotatef ((GLfloat) Right, 1.0, 0.0, 0.0);
+        cubomag.face('r');
+        glPopMatrix(); // Restaura a matriz de transformação
+
+        glPushMatrix(); // Salva a matriz de transformação atual
+        glRotatef ((GLfloat) Left, 1.0, 0.0, 0.0);
+        cubomag.face('l');
+        glPopMatrix(); // Restaura a matriz de transformação
+
+        glPushMatrix(); // Salva a matriz de transformação atual
+        glRotatef ((GLfloat) Central1, 1.0, 0.0, 0.0); 
+        cubomag.face('s');
+        glPopMatrix(); // Restaura a matriz de transformação
+        
+    }else{
+            // rotação da face frontal
+        glPushMatrix(); // Salva a matriz de transformação atual
+        glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE, GL_REPLACE);
+        glRotatef ((GLfloat) Front, 0.0, 0.0, 1.0);
+        cubomag.face('f');
+        glPopMatrix(); // Restaura a matriz de transformação
+ 
+        // rotação da face central
+        glPushMatrix(); // Salva a matriz de transformação atual
+        glRotatef ((GLfloat) Central, 0.0, 0.0, 1.0); 
+        cubomag.face('c');
+        glPopMatrix(); // Restaura a matriz de transformação
+        
+        // rotação da face traseira
+        glPushMatrix(); // Salva a matriz de transformação atual
+        glRotatef ((GLfloat) Back, 0.0, 0.0, 1.0);
+        cubomag.face('b');
+        glPopMatrix(); // Restaura a matriz de transformação
+    }
     
-    /*
-    glPushMatrix(); // Salva a matriz de transformação atual
-    glRotatef ((GLfloat) Left, 1.0, 0.0, 0.0); // Translada o cubo à esquerda
-    cubomag.face('l');
-    glPopMatrix(); // Restaura a matriz de transformação
-
-    glPushMatrix(); // Salva a matriz de transformação atual
-    glRotatef ((GLfloat) Up, 0.0, 1.0, 0.0); // Translada o cubo à esquerda
-    cubomag.face('u');
-    glPopMatrix(); // Restaura a matriz de transformação*/
-
-    glPushMatrix(); // Salva a matriz de transformação atual
-    glRotatef ((GLfloat) Front, 0.0, 0.0, 1.0); // Translada o cubo à esquerda
-    cubomag.face('f');
-    glPopMatrix(); // Restaura a matriz de transformação
-
-    glPushMatrix(); // Salva a matriz de transformação atual
-    glRotatef ((GLfloat) Central, 0.0, 0.0, 1.0); // Translada o cubo à esquerda
-    cubomag.face('c');
-    glPopMatrix(); // Restaura a matriz de transformação
-
-    glPushMatrix(); // Salva a matriz de transformação atual
-    glRotatef ((GLfloat) Back, 0.0, 0.0, 1.0); // Translada o cubo à esquerda
-    cubomag.face('b');
-    glPopMatrix(); // Restaura a matriz de transformação
-
-    //cubomag.show();
     glutSwapBuffers();
 }
 
@@ -481,11 +507,33 @@ void update(int value) {
 
 // Função de inicialização
 void init() {
+    
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND); // Habilita o blend
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(0.2, 0.2, 0.2, 1.0); // Cor de fundo preta
     glMatrixMode(GL_PROJECTION);
     gluPerspective(45.0, 1.0, 0.1, 100.0);
     glMatrixMode(GL_MODELVIEW);
+    
+    // Configurações de Textura
+    unsigned char *data;
+    int width, height, nrChannels;
+    stbi_set_flip_vertically_on_load(true);
+    data = stbi_load("metalico_textura.jpg", &width, &height, &nrChannels, 4);
+
+    glGenTextures(1, &Textura);
+    glBindTexture(GL_TEXTURE_2D, Textura);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, 
+                    GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, 
+                    GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 50, 
+                    50 , 0, GL_RGBA, GL_UNSIGNED_BYTE, 
+                    data);
 }
 
 
@@ -520,5 +568,7 @@ int main(int argc, char **argv) {
 
     //loop que mantém o programa executando
     glutMainLoop();
+    glDisable(GL_TEXTURE_2D);
+    glDeleteTextures(1, &Textura);
     return 0;
 }
